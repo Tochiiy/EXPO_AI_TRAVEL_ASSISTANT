@@ -1,0 +1,94 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import ReactMarkdown from 'react-markdown';
+
+export default function Itineraries() {
+  const auth = useContext(AuthContext);
+  
+  // 1. State to track which trip modal is currently open
+  const [selectedTrip, setSelectedTrip] = useState<any | null>(null);
+
+  useEffect(() => {
+    auth?.refreshUser();
+  }, []);
+
+  const trips = auth?.user?.savedItineraries || [];
+
+  return (
+  
+    <div style={{ paddingTop: '85px', minHeight: '100vh', backgroundColor: '#f9fafb', paddingBottom: '40px', paddingLeft: '24px', paddingRight: '24px' }}>
+      
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '24px', color: '#111827' }}>My Saved Itineraries</h1>
+        
+        {trips.length === 0 ? (
+          <p style={{ color: '#6b7280' }}>You haven't saved any itineraries yet. Start a new chat to begin planning!</p>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            {/* Map through the trips to create the cards */}
+            {trips.map((trip: any, idx: number) => (
+              <div key={idx} style={{ backgroundColor: '#ffffff', borderRadius: '12px', padding: '24px', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column' }}>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '8px', color: '#111827' }}>{trip.destination}</h2>
+                <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '24px', flex: 1 }}>Saved on: {new Date(trip.savedAt).toLocaleDateString()}</p>
+                
+                {/* 2. Button opens the modal! */}
+                <button 
+                  onClick={() => setSelectedTrip(trip)} 
+                  style={{ backgroundColor: '#000000', color: '#ffffff', padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '0.95rem' }}
+                >
+                  View Details
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* 3. THE MODAL OVERLAY */}
+      {selectedTrip && (
+        <div 
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000, padding: '20px' }} 
+          onClick={() => setSelectedTrip(null)} 
+        >
+          <div 
+            style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '700px', maxHeight: '85vh', overflowY: 'auto', position: 'relative', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }} 
+            onClick={(e) => e.stopPropagation()} 
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedTrip(null)} 
+              style={{ position: 'absolute', top: '20px', right: '20px', background: '#f3f4f6', border: 'none', fontSize: '1.2rem', cursor: 'pointer', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              ✕
+            </button>
+            
+            <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '24px', color: '#111827', paddingRight: '40px' }}>
+              {selectedTrip.destination}
+            </h2>
+            
+            {/* The Markdown Renderer from the Dashboard */}
+            <div style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: '1.6', fontSize: '0.95rem', color: '#374151' }}>
+              <ReactMarkdown
+                components={{
+                  a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', fontWeight: '600', textDecoration: 'none', borderBottom: '1px solid currentColor' }} />,
+                  h1: ({ node, ...props }) => <h1 {...props} style={{ fontSize: '1.15rem', fontWeight: '700', marginTop: '16px', marginBottom: '8px', color: '#111827' }} />,
+                  h2: ({ node, ...props }) => <h2 {...props} style={{ fontSize: '1.1rem', fontWeight: '700', marginTop: '16px', marginBottom: '8px', color: '#111827' }} />,
+                  h3: ({ node, ...props }) => <h3 {...props} style={{ fontSize: '1rem', fontWeight: '700', marginTop: '16px', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#4b5563' }} />,
+                  p: ({ node, ...props }) => <p {...props} style={{ margin: '0 0 12px 0', lineHeight: '1.6' }} />,
+                  ul: ({ node, ...props }) => <ul {...props} style={{ margin: '0 0 16px 0', paddingLeft: '20px' }} />,
+                  ol: ({ node, ...props }) => <ol {...props} style={{ margin: '0 0 16px 0', paddingLeft: '20px' }} />,
+                  li: ({ node, ...props }) => <li {...props} style={{ marginBottom: '6px' }} />,
+                  strong: ({ node, ...props }) => <strong {...props} style={{ fontWeight: '700', color: '#111827' }} />
+                }}
+              >
+                {selectedTrip.aiResponse}
+              </ReactMarkdown>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
