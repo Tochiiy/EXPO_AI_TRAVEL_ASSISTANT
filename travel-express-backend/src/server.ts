@@ -165,11 +165,22 @@ io.on('connection', (socket) => {
                 },
                 body: JSON.stringify({ message: data.message, thread_id: socket.id })
             });
-            if (!pythonResponse.ok) throw new Error('AI Service error');
+            
+            if (!pythonResponse.ok) {
+                const errText = await pythonResponse.text();
+                throw new Error(`AI Service returned ${pythonResponse.status}: ${errText}`);
+            }
+            
             const aiData = await pythonResponse.json();
             socket.emit('receive_message', { role: 'ai', content: aiData.response });
-        } catch (error) {
-            socket.emit('receive_message', { role: 'ai', content: "Sorry, the AI is offline." });
+            
+        } catch (error: any) {
+            console.error("AI Gateway Error:", error);
+            // THIS LINE IS MODIFIED TO EXPOSE THE ERROR TO THE FRONTEND
+            socket.emit('receive_message', { 
+                role: 'ai', 
+                content: `🚨 ERROR REVEALED: ${error.message || error.toString()}` 
+            });
         } finally {
             socket.emit('bot_typing', false);
         }
