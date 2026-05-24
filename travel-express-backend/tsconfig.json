@@ -6,12 +6,8 @@
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["vite/client"],
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"]
 }
