@@ -11,11 +11,20 @@ import nodemailer from 'nodemailer';
 import { authMiddleware, AuthRequest } from './auth_middleware/auth';
 dotenv.config();
 
+
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'http://127.0.0.1:5173', 
+  'https://expo-travelai.vercel.app' 
+];
+
+
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+        origin: allowedOrigins,
         credentials: true
     }
 });
@@ -23,7 +32,7 @@ const io = new Server(server, {
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], 
+    origin: allowedOrigins, 
     credentials: true
 }));
 
