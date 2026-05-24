@@ -58,11 +58,11 @@ export default function About() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '50px' }}>
           <div style={{ padding: '24px', backgroundColor: '#f3f4f6', borderRadius: '12px' }}>
             <h3 style={{ margin: '0 0 12px 0', fontSize: '1.25rem', color: '#111827' }}>🧠 Intelligent Routing</h3>
-            <p style={{ margin: 0, color: '#4b5563', lineHeight: '1.6' }}>Our AI engine automatically detects when to chat and when to trigger complex multi-agent workflows.</p>
+            <p style={{ margin: 0, color: '#4b5563', lineHeight: '1.6' }}>Thank's for stopping by.</p>
           </div>
           <div style={{ padding: '24px', backgroundColor: '#f3f4f6', borderRadius: '12px' }}>
             <h3 style={{ margin: '0 0 12px 0', fontSize: '1.25rem', color: '#111827' }}>🔒 Secure & Private</h3>
-            <p style={{ margin: 0, color: '#4b5563', lineHeight: '1.6' }}>Your data is secured using industry-standard JWT authentication and encrypted MongoDB storage.</p>
+            <p style={{ margin: 0, color: '#4b5563', lineHeight: '1.6' }}>Your data is secured.</p>
           </div>
         </div>
 
