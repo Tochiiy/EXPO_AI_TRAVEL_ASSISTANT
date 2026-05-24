@@ -157,7 +157,10 @@ io.on('connection', (socket) => {
     socket.on('send_message', async (data) => {
         socket.emit('bot_typing', true);
         try {
-            const pythonResponse = await fetch(`${process.env.PYTHON_AI_URL}/api/chat`, {
+            // THE FIX: Hard fallback if process.env fails to load
+            const pythonUrl = process.env.PYTHON_AI_URL || 'https://expo-ai-travel-assistant-1.onrender.com';
+            
+            const pythonResponse = await fetch(`${pythonUrl}/api/chat`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -176,7 +179,6 @@ io.on('connection', (socket) => {
             
         } catch (error: any) {
             console.error("AI Gateway Error:", error);
-            // THIS LINE IS MODIFIED TO EXPOSE THE ERROR TO THE FRONTEND
             socket.emit('receive_message', { 
                 role: 'ai', 
                 content: `🚨 ERROR REVEALED: ${error.message || error.toString()}` 

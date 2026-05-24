@@ -11,7 +11,6 @@ export default function Dashboard() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Generate today's date formatted nicely
   const today = new Date().toLocaleDateString('en-US', { 
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
   });
@@ -33,10 +32,8 @@ export default function Dashboard() {
     return [{ role: 'ai', content: getWelcomeMessage(auth?.user?.name || 'Explorer') }];
   });
 
-  
-useEffect(() => {
+  useEffect(() => {
     if (auth?.user?.name && messages.length === 1 && messages[0].content.includes('Explorer')) {
-    
       const updatedMessage: ChatMessage[] = [{ role: 'ai', content: getWelcomeMessage(auth.user.name) }];
       setMessages(updatedMessage);
       localStorage.setItem('travel_app_chat', JSON.stringify(updatedMessage));
@@ -83,23 +80,31 @@ useEffect(() => {
     setInput('');
   };
 
-const handleClearChat = () => {
-    
+  const handleClearChat = () => {
     const defaultMessage: ChatMessage[] = [{ role: 'ai', content: getWelcomeMessage(auth?.user?.name || 'Explorer') }];
     setMessages(defaultMessage);
     localStorage.setItem('travel_app_chat', JSON.stringify(defaultMessage));
   };
+
   return (
     <div style={{ 
       display: 'flex', flexDirection: 'column', height: 'calc(100vh - 65px)', 
       marginTop: '65px', width: '100%', backgroundColor: '#f9fafb'
     }}>
+      <style>
+        {`
+          @keyframes typingBlink {
+            0% { opacity: 0.2; }
+            20% { opacity: 1; }
+            100% { opacity: 0.2; }
+          }
+        `}
+      </style>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         
         <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ maxWidth: '768px', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            {/* 🌟 The Wave Emoji is officially here! */}
             <div style={{ textAlign: 'center', marginBottom: '10px', paddingBottom: '20px', borderBottom: '1px solid #e5e7eb' }}>
               <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#111827', margin: '0 0 8px 0' }}>
                 Hello, {auth?.user?.name || 'Explorer'} 👋
@@ -136,6 +141,24 @@ const handleClearChat = () => {
                 </div>
               </div>
             ))}
+            
+            {/*  TYPING INDICATOR  */}
+            {isTyping && (
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{ 
+                  maxWidth: '85%', padding: '12px 18px', borderRadius: '12px', 
+                  backgroundColor: '#ffffff', color: '#6b7280', 
+                  border: '1px solid #e5e7eb', fontSize: '0.95rem',
+                  display: 'flex', gap: '4px', alignItems: 'center'
+                }}>
+                  <span style={{ fontWeight: '500' }}>AI is thinking</span>
+                  <span style={{ animation: 'typingBlink 1.4s infinite both' }}>.</span>
+                  <span style={{ animation: 'typingBlink 1.4s infinite both', animationDelay: '0.2s' }}>.</span>
+                  <span style={{ animation: 'typingBlink 1.4s infinite both', animationDelay: '0.4s' }}>.</span>
+                </div>
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
         </div>
