@@ -11,6 +11,10 @@ class ChatRequest(BaseModel):
     message: str
     thread_id: str = None 
 
+@app.get("/")
+async def health_check():
+    return {"status": "Alive", "message": "Python AI Server is running!"}
+
 @app.post("/api/chat")
 async def chat_with_agent(req: ChatRequest):
     thread_id = req.thread_id or str(uuid.uuid4())
