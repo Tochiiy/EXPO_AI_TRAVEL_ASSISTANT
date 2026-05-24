@@ -15,7 +15,7 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 
 // Protected Route Wrapper
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const auth = useContext(AuthContext);
   if (!auth?.token) return <Navigate to="/login" />;
   return children;
