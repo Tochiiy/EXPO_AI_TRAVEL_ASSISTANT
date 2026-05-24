@@ -9,6 +9,9 @@ interface AuthContextType {
   refreshUser: () => Promise<void>; 
 }
 
+// Dynamic API URL
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!storedToken) return;
 
       try {
-        const res = await fetch('http://localhost:5000/api/auth/me', {
+        const res = await fetch(`${API_URL}/api/auth/me`, {
           headers: { 'Authorization': `Bearer ${storedToken}` }
         });
         
@@ -55,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   
   const login = async (email: string, password: string) => {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -70,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // The Signup Function
   const signup = async (name: string, email: string, password: string) => {
-    const res = await fetch('http://localhost:5000/api/auth/signup', {
+    const res = await fetch(`${API_URL}/api/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
@@ -87,7 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshUser = async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${API_URL}/api/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {

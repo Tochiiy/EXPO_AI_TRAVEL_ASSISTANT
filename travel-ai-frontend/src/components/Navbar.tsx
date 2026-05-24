@@ -32,44 +32,48 @@ export default function Navbar() {
   };
 
   const handleImageUpload = () => {
+  // @ts-ignore
+  if (window.cloudinary) {
     // @ts-ignore
-    if (window.cloudinary) {
-      // @ts-ignore
-      const myWidget = window.cloudinary.createUploadWidget(
-        {
-          cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME, 
-          uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
-          cropping: true,
-          multiple: false,
-          resourceType: "image", 
-        },
-        async (error: any, result: any) => {
-          if (!error && result && result.event === "success") {
-            const uploadedUrl = result.info.secure_url;
-            setProfileImage(uploadedUrl);
-            localStorage.setItem('user_avatar', uploadedUrl);
+    const myWidget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+        uploadPreset: import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET,
+        cropping: true,
+        multiple: false,
+        resourceType: "image",
+      },
+      async (error: any, result: any) => {
+        if (!error && result && result.event === "success") {
+          const uploadedUrl = result.info.secure_url;
+          setProfileImage(uploadedUrl);
+          localStorage.setItem('user_avatar', uploadedUrl);
 
-            if (auth?.token) {
-              try {
-                await fetch('http://localhost:5000/api/auth/avatar', {
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth.token}`
-                  },
-                  body: JSON.stringify({ avatarUrl: uploadedUrl })
-                });
-                if (auth.refreshUser) await auth.refreshUser();
-              } catch (err) {
-                console.error("Failed to save avatar to DB", err);
-              }
+          if (auth?.token) {
+            try {
+              
+              const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+              
+              await fetch(`${API_URL}/api/auth/avatar`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${auth.token}`
+                },
+                body: JSON.stringify({ avatarUrl: uploadedUrl })
+              });
+              
+              if (auth.refreshUser) await auth.refreshUser();
+            } catch (err) {
+              console.error("Failed to save avatar to DB", err);
             }
           }
         }
-      );
-      myWidget.open();
-    }
-  };
+      }
+    );
+    myWidget.open();
+  }
+};
 
   return (
     <nav style={{ 
