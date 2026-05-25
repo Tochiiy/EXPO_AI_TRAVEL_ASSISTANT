@@ -96,7 +96,7 @@ def fetch_live_google_hotels(q: str, check_in: str, check_out: str = None):
         print(f"Live hotel fetch error: {e}")
         return ["Error fetching real-time hotel availability."]
 
-# --- 4. NODE DEFINITIONS ---
+# --- NODE DEFINITIONS ---
 def client_inquiries_extraction_node(state: TravelState):
     print("\n Scanning and analyzing user conversation...")
     prompt = f"Analyze the conversation and extract the travel origin, destination, and exact dates in YYYY-MM-DD format.\nConversation: {state['messages']}"
@@ -135,7 +135,7 @@ def ask_client_node(state: TravelState):
 
 
 def require_approval_node(state: TravelState):
-    print("\n🛑 [Security]: User approved. Bypassing pause for the rest of the session.")
+    print("\n [Security]: User approved. Bypassing pause for the rest of the session.")
     return {}
 
 
@@ -193,7 +193,7 @@ def logical_router_after_inquires(state: TravelState) -> Literal["ask_client", "
     print("\n [Router]: Session already approved! Bypassing directly to live search.")
     return "flights"
 
-# --- 5. BUILD THE CONNECTED GRAPH ---
+# ---  BUILD THE CONNECTED GRAPH ---
 builder = StateGraph(TravelState)
 builder.add_node("inquires", client_inquiries_extraction_node)
 builder.add_node("ask_client", ask_client_node)

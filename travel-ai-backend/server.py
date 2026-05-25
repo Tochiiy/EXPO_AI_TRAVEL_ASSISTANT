@@ -24,7 +24,7 @@ async def chat_with_agent(req: ChatRequest):
     
     current_state = travel_app.get_state(config)
     
-    #  If we  paused waiting for approval...
+    #  If paused waiting for approval...
     if current_state.next and current_state.next[0] == "require_approval":
         if req.message.strip().lower() in ["yes", "y", "sure", "ok", "proceed"]:
             print("✅ User approved! Saving flag and resuming...")

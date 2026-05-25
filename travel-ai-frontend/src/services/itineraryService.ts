@@ -1,6 +1,6 @@
 export const saveItinerary = async (token: string, data: { destination: string, dates: string, aiResponse: string }) => {
   
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_URL = 'https://expo-ai-travel-assistant.onrender.com';
 
   const res = await fetch(`${API_URL}/api/itineraries/add`, {
     method: 'POST',

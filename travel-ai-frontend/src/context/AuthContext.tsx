@@ -10,7 +10,7 @@ interface AuthContextType {
 }
 
 // Dynamic API URL
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = 'https://expo-ai-travel-assistant.onrender.com';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 

@@ -52,7 +52,7 @@ export default function Navbar() {
           if (auth?.token) {
             try {
               
-              const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+              const API_URL = 'https://expo-ai-travel-assistant.onrender.com';
               
               await fetch(`${API_URL}/api/auth/avatar`, {
                 method: 'PUT',
