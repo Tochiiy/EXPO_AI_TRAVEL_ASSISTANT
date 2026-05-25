@@ -14,10 +14,9 @@ dotenv.config();
 
 const allowedOrigins = [
   'http://localhost:5173', 
-  'http://127.0.0.1:5173', 
-  'https://expo-travelai.vercel.app' 
+  'https://expo-travelai.vercel.app',
+  'https://expo-travelai-client.onrender.com' 
 ];
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
