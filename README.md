@@ -1,37 +1,28 @@
-# ExpoTravel.AI - Intelligent Travel Assistant
+✈️ ExpoTravel.AI - Intelligent Travel Assistant
+Live Demo: https://expo-travelai.vercel.app
+Backend API: https://expo-ai-travel-assistant.onrender.com
 
 ExpoTravel.AI is an agentic, full-stack travel application that leverages LLMs to help users discover destinations, find real-time flight information, and generate customized travel itineraries.
 
-## 🚀 Features
+🚀 Features
+Agentic AI Workflow: Powered by LangGraph to handle complex, multi-step travel research.
 
-- **Agentic AI Workflow:** Powered by LangGraph to handle complex, multi-step travel research.
-- **Real-time Chat:** Interactive messaging interface with typing indicators via Socket.io.
-- **Personalized Experience:** Secure JWT authentication with persistent user profiles and avatars.
-- **Smart Itineraries:** Automatically save generated travel plans to your account.
-- **Modern UI:** Responsive design with dynamic, animated backgrounds and clean layouts.
+Real-time Chat: Interactive messaging interface with typing indicators via Socket.io.
 
-## 🛠 Tech Stack
+Personalized Experience: Secure JWT authentication with persistent user profiles and avatars.
 
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS.
-- **Backend:** Node.js, Express, MongoDB, Socket.io.
-- **AI/LLM:** LangChain/LangGraph, OpenAI/OpenRouter APIs.
-- **Deployment:** Vercel (Frontend), Render (Backend).
+Smart Itineraries: Automatically save generated travel plans to your account.
 
-## ⚙️ Environment Variables
+Modern UI: Responsive design with dynamic, animated backgrounds and clean layouts.
 
-To run this project, you will need to add the following environment variables to your `.env` file in the backend directory:
+🛠 Tech Stack
+Frontend: React, TypeScript, Vite, Tailwind CSS
 
-- `MONGO_URI`: Your MongoDB Connection String.
-- `JWT_SECRET`: A secure random string.
-- `OPENROUTER_API_KEY`: Your OpenRouter API Key.
-- `EMAIL_USER`: Your Gmail account for password resets.
-- `EMAIL_PASS`: Your Gmail App Password.
+Backend: Node.js, Express, MongoDB, Socket.io
 
-## 🚀 Deployment Strategy
+AI/LLM: LangChain/LangGraph, OpenAI/OpenRouter APIs
 
-- **Frontend:** Deployed on Vercel. Connect your repository and set `VITE_API_URL` to your live Render backend URL.
-- **Backend:** Deployed on Render. Ensure the root directory is set to `travel-express-backend` and environment variables are properly configured.
+Deployment: Vercel and Render (Frontend), Render (Backend)
 
-## 👤 Developer
-
-**Tochukwu Sunday** Full-Stack Engineer
+👤 Developer
+Tochukwu Sunday Full-Stack Engineer
